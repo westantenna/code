@@ -10,9 +10,10 @@ void setup() {
   noStroke();
   for (int i = 0; i < spots.length; i++) {
     float x = random(0, width);
+    float y = random(0, height);
     float rate = 2.0 + i * 0.1;
     float radius = random(10, 30);
-    spots[i] = new Spot(x, 300, radius, rate);
+    spots[i] = new Spot(x, y, radius, rate);
   }
 }
 
@@ -53,6 +54,9 @@ class Spot {
   void display() {
   fill(240, 30, 95, 1);
   ellipse(x, y, diameter, diameter);
-
+  
+  if (diameter > 600) {
+    diameter = 0;
   }
+}
 }
