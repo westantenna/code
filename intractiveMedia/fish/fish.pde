@@ -19,7 +19,8 @@ void setup() {
 
 void draw() {
 //background Color
-  fill(220, 6, 100, 12);
+  fill(220, 1, 100, 2);
+  noStroke();
   rect(0, 0, width, height);
 
 
@@ -47,12 +48,14 @@ class Spot {
 
   // 1
   void radius() {
-    diameter = diameter + 5;
+    diameter = diameter + 1;
   }
 
   // 2
   void display() {
-  fill(240, 30, 95, 1);
+  strokeWeight(20);
+  stroke(240, 20, 95, 6);
+  noFill();
   ellipse(x, y, diameter, diameter);
   
   if (diameter > 600) {
