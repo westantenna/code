@@ -67,10 +67,56 @@ function touchMoved() {
     if (moji == 1) {
         fill(bgC);
         rect(0, 30, 200, 20);
+        fill(128);
+        rect(touchX, touchY, 2, 2);
         fill(0);
         text(touchX, 10, 40);
         text(touchY, 10, 50);
     }
+    msB = millis();
+    xB= touchX;
+    yB = touchY;
+
+    //時間、位置の差を代入
+    msX = msB - msA;
+    xX = xB - xA;
+    yX = yB - yA;
+
+
+    fill(0, 0, 255);  //Blue
+    //正方形の中央、正方形の中央、規定値幅、規定値高
+    if (moji == 1) {
+            rect(touchX - WIDTH / 2, touchY - HEIGHT / 2, WIDTH, HEIGHT);
+    }
+
+    //長方形の色 時間で色が変わる
+    colorMode(HSB);
+    fill((msX*0.5) - 30, 50, 100, sqrt(sq(xA - xB) + sq(yA - yB))*0.001 + 0.2);
+
+    //色をRGBによる制御に戻しておく
+    colorMode(RGB, 255);
+
+    //移動させる
+    translate(xA, yA);
+
+    //ここから回転
+    ro = Math.atan2(xB - xA, yA - yB);
+    rotate(ro)
+
+/*
+        for(var i =1; i<=12; i++){
+          drawRectIn(rectB);
+          rotate(30.0*PI/180);
+        }
+*/
+
+        rect(0, 0, sqrt(sq(xA - xB) + sq(yA - yB)) , -sqrt(sq(xA - xB) + sq(yA - yB)));
+
+
+    rotate(Math.atan2(xA - xB, yA - yB));
+
+    translate(-xA, -yA);
+
 }
 
 //タッチ終わりの処理
