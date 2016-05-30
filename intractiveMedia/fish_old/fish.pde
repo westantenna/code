@@ -1,15 +1,12 @@
 //maru no kazu
 
 int numSpots = 5;
-PImage img, maskImage;
-int jx = 0;
-int jy = 0;
-
+PImage img;
 
 Spot[] spots = new Spot[numSpots];
 
 void setup() {
-  size(768, 768);
+  size(1024, 768);
   colorMode(HSB, 360, 100, 100, 100);
   background(220, 3, 100, 100);
   smooth();
@@ -18,7 +15,7 @@ void setup() {
     float x = random(0, width);
     float y = random(0, height);
     float rate = 2.0 + i * 0.1;
-    float radius = random(-1000, 300);
+    float radius = random(10, 30);
     float alpha = 10;
 
     spots[i] = new Spot(x, y, radius, rate, alpha);
@@ -31,27 +28,16 @@ void draw() {
   fill(220, 3, 100, 4);
   noStroke();
   rect(0, 0, width, height);
+  
+  
 
 
-  img = loadImage("blackbas.png");
-  image(img, jx, jy, width/8, height/8);
-
-  println(jx, jy);  
-  if (jx > 200) {
-    jx = -1;
-  } if (jy > 200)  {
-    jy = -1;
-  } else {
-    jx++;
-    jy++;
-  }
 //maru
 
   for (int i = 0; i < spots.length; i++) {
     spots[i].radius(); // Move each object
     spots[i].display(); // Display each object
   }
-
 }
 
 class Spot {
@@ -80,17 +66,18 @@ class Spot {
 
   // 2
   void display() {
-    strokeWeight(20);
-    fill(220, 3, 100, alpha*2);
-    stroke(240, 20, 95, alpha);
-  //  noFill();
-    if (diameter < 0) {
-      diameter = 0;
-    }
-    ellipse(x, y, diameter, diameter);
-    println(x, y, diameter, speed, alpha);
-    if (diameter > 600) {
-      diameter = 0;
-    }
+  strokeWeight(20);
+  fill(220, 3, 100, alpha*2);
+  stroke(240, 20, 95, alpha);
+//  noFill();
+  ellipse(x, y, diameter, diameter);
+  println(x, y, diameter, alpha);
+  if (diameter > 600) {
+    diameter = 0;
   }
+  img = loadImage("blackbas.png");
+  image(img, width/4, height/4, width/2, height/2);
+
+
+}
 }
