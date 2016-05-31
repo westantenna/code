@@ -22,7 +22,6 @@ void setup() {
     float alpha = 10;
 
     spots[i] = new Spot(x, y, radius, rate, alpha);
-    //l19 == l46
   }
 }
 
@@ -31,10 +30,6 @@ void draw() {
   fill(220, 3, 100, 4);
   noStroke();
   rect(0, 0, width, height);
-
-
-  img = loadImage("blackbas.png");
-  image(img, jx, jy, width/8, height/8);
 
   println(jx, jy);  
   if (jx > 200) {
@@ -51,7 +46,6 @@ void draw() {
     spots[i].radius(); // Move each object
     spots[i].display(); // Display each object
   }
-
 }
 
 class Spot {
