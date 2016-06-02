@@ -15,6 +15,12 @@ var xX = 0; //移動したYの距離
 var ro = 0; //回転した角度
 var radius = 100; //動かしたマウスの距離（仮に0を入れている）
 var pen = 0;
+var pmode = 0;
+
+var img;
+var img1;
+var img2;
+var img3;
 
 //点・文字など表示するか否か
 //０だと表示しない
@@ -22,17 +28,25 @@ var moji = 0;
 //長方形の形
 
 //初期設定
-//いMacの画面サイズは、1920*1080
+//Macの画面サイズは、1920*1080
 function setup() {
-    createCanvas(1024, 768);
+    createCanvas(1920, 1080);
     background(bgC);
     noStroke(); //面に線なし
+    img = loadImage("button.png");
+    img1 = loadImage("button_p1.png");
+    img2 = loadImage("button_p2.png");
+    img3 = loadImage("button_p3.png");
 }
 
 function draw() {
+//    image(img, 1870, 0, 50, 150);
+//起動時には、一回クリックをする
 }
 
 function touchStarted() {
+    //ボタン
+    image(img, 1870, 0, 50, 150);
     //タッチ始めの処理
     msA = millis();
     xA= touchX;
@@ -45,6 +59,19 @@ function touchStarted() {
     }
     touch = 1;
 
+    //ボタン押されてが反応する
+    if (1870 < xA && 0 < yA && 50 > yA) {
+        image(img1, 1870, 0, 50, 50);
+        pmode = 0;
+    }
+    if (1870 < xA && 50 < yA && 100 > yA) {
+        image(img2, 1870, 50, 50, 50);
+        pmode = 1;
+    }
+    if (1870 < xA && 100 < yA && 150 > yA) {
+        image(img3, 1870, 100, 50, 50);
+        pmode = 2;
+    }
 
     //開発部分 左上の文字
     if (moji == 1) {
@@ -52,13 +79,16 @@ function touchStarted() {
         rect(0, 0, 200, 30);
         rect(0, 50, 200, 10);
     }
+
+
+
 }
 
 function touchMoved() {
     //押されたまま動いているとき
     if (moji == 1) {
         fill(bgC);
-        rect(0, 30, 200, 50);
+        rect(0, 30, 200, 60);
         fill(128);
         rect(touchX, touchY, 2, 2);
         fill(0);
@@ -66,6 +96,7 @@ function touchMoved() {
         text(touchY, 10, 50);
         text(radius, 10, 70);
         text(pen, 10, 80);
+        text(pmode, 10, 80);
     }
 
     msB = millis();
@@ -81,7 +112,7 @@ function touchMoved() {
 
 
     //四角が書かれる条件、要調整
-    if (msX > 400) {
+    if (msX > 100) {
         drawRect();
     }
 }
@@ -90,6 +121,9 @@ function touchMoved() {
 function touchEnded() {
     //四角が書かれる
     drawRect();
+
+    //ボタン
+    image(img, 1870, 0, 50, 150);
 
     //開発部分 左上の文字
     if (moji == 1) {
@@ -100,9 +134,12 @@ function touchEnded() {
         text(degrees(ro), 10, 60);
     }
 
-    //同じところでクリックすると、リセットされる
-    if (xX == 0 && yX == 0) {
+
+
+    if (pmode == 2) {
         background(bgC);
+        image(img, 1870, 0, 50, 150);
+        pmode = 0;
     }
 }
 
@@ -114,31 +151,23 @@ function drawRect() {
         fill(0, 0, 255);  //Blue
         rect(touchX - WIDTH / 2, touchY - HEIGHT / 2, WIDTH, HEIGHT);
     }
-
     //長方形の色 時間で色が変わる、RGBではなく一時的にHSBで
-    colorMode(HSB);
-
-    fill((msX*0.5) - 30, 50, 100, sqrt(sq(xA - xB) + sq(yA - yB))*0.002 + 2);
-
+    if (pmode == 0) {
+        colorMode(HSB);
+        fill(sqrt(sq(xA - xB) + sq(yA - yB))*0.5 + 2, 60, 100, msX * 0.007 + random(-0.1, 0.1));
+    }
+    if (pmode == 1) {
+        fill(255, 255, 255, 191);
+    }
     //色をRGBによる制御に戻しておく
     colorMode(RGB, 255);
-
     //移動させる
     translate(xA, yA);
-
-
-
-
     var radius = sqrt(sq(xA - xB) + sq(yA - yB));
-
 
     //ここから回転
     ro = Math.atan2(xB - xA, yA - yB) + PI;
     rotate(ro);
-
-//    radius = sqrt(sq(xA - xB) + sq(yA - yB));
-    //五輪のエンブレム的模様を描写する
-//    rect(0, 0, sqrt(sq(xA - xB) + sq(yA - yB)) , -sqrt(sq(xA - xB) + sq(yA - yB)));
 
 
     if (pen == 0) {
@@ -163,17 +192,8 @@ function drawRect() {
         drawRectOlympic6(radius);
         pen = 0;
     }
-
-
     rotate(-ro);
-
-
-    //!!!!!!!!!!!!!!!
-
-
-
     translate(-xA, -yA);
-
     msA = millis();
     xA= touchX;
     yA = touchY;
