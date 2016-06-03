@@ -28,9 +28,9 @@ var moji = 0;
 //長方形の形
 
 //初期設定
-//Macの画面サイズは、1920*1080
+//展示Macの画面サイズは、1680*1050
 function setup() {
-    createCanvas(1920, 1080);
+    createCanvas(1680, 1050);
     background(bgC);
     noStroke(); //面に線なし
     img = loadImage("button.png");
@@ -40,13 +40,13 @@ function setup() {
 }
 
 function draw() {
-//    image(img, 1870, 0, 50, 150);
+//    image(img, 1630, 0, 50, 150);
 //起動時には、一回クリックをする
 }
 
 function touchStarted() {
     //ボタン
-    image(img, 1870, 0, 50, 150);
+    image(img, 1630, 0, 50, 150);
     //タッチ始めの処理
     msA = millis();
     xA= touchX;
@@ -60,16 +60,16 @@ function touchStarted() {
     touch = 1;
 
     //ボタン押されてが反応する
-    if (1870 < xA && 0 < yA && 50 > yA) {
-        image(img1, 1870, 0, 50, 50);
+    if (1630 < xA && 0 < yA && 50 > yA) {
+        image(img1, 1630, 0, 50, 50);
         pmode = 0;
     }
-    if (1870 < xA && 50 < yA && 100 > yA) {
-        image(img2, 1870, 50, 50, 50);
+    if (1630 < xA && 50 < yA && 100 > yA) {
+        image(img2, 1630, 50, 50, 50);
         pmode = 1;
     }
-    if (1870 < xA && 100 < yA && 150 > yA) {
-        image(img3, 1870, 100, 50, 50);
+    if (1630 < xA && 100 < yA && 150 > yA) {
+        image(img3, 1630, 100, 50, 50);
         pmode = 2;
     }
 
@@ -123,7 +123,7 @@ function touchEnded() {
     drawRect();
 
     //ボタン
-    image(img, 1870, 0, 50, 150);
+    image(img, 1630, 0, 50, 150);
 
     //開発部分 左上の文字
     if (moji == 1) {
@@ -138,7 +138,7 @@ function touchEnded() {
 
     if (pmode == 2) {
         background(bgC);
-        image(img, 1870, 0, 50, 150);
+        image(img, 1630, 0, 50, 150);
         pmode = 0;
     }
 }
