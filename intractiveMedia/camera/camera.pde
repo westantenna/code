@@ -9,6 +9,8 @@
   This sample program is most small sample as simpleLite.
   The marker is "patt.hiro".
 */
+PImage fimg;
+
 import processing.video.*;
 import jp.nyatla.nyar4psg.*;
 
@@ -24,10 +26,10 @@ void setup() {
   nya=new MultiMarker(this,width,height,"data/camera_para.dat",NyAR4PsgConfig.CONFIG_PSG);
   nya.addARMarker("data/marker16.pat",80);
   cam.start();
+    fimg = loadImage("data/fish0.png");
 }
 
-void draw()
-{
+void draw() {
   if (cam.available() !=true) {
       return;
   }
@@ -39,8 +41,7 @@ void draw()
     return;
   }
   nya.beginTransform(0);
-  fill(0,0,255);
-  translate(0,0,20);
-  box(40);
+  fimg = loadImage("data/fish0.png");
+  image(fimg, width/4, height/4, width/2, height/2);  
   nya.endTransform();
 }
