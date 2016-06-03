@@ -1,40 +1,3 @@
-void setup() {
-  size(768,768);
-  flock = new Flock();
-  
-  //はじめに出現する位置を取得する
-//  Boid b = new Boid(random(width),random(height));
-  flock.addBoid(b);
-  smooth();
-}
-
-void draw() {
-  background(#F2F6FF);
-  flock.run();
-}
-
-
-Flock flock;
-class Flock {
-  ArrayList<Boid> boids; // An ArrayList for all the boids
-
-  Flock() {
-    boids = new ArrayList<Boid>(); // Initialize the ArrayList
-  }
-
-  void run() {
-    for (Boid b : boids) {
-      b.run(boids);  // Passing the entire list of boids to each boid individually
-    }
-  }
-
-//魚が出現する
-  void addBoid(Boid b) {
-    boids.add(b);
-  }
-}
-
-
 class Boid {
   PVector location;//魚の位置 xとy
   PVector velocity;//魚の動く速度 xとy
@@ -44,6 +7,9 @@ class Boid {
   float angle;
   float angleSpeed;
   float angleFish;
+  float size;
+  
+  int type = 0;//色
 
 //setupで取得した数値をベクターに代入している
   Boid(float x, float y) {
@@ -52,7 +18,10 @@ class Boid {
     //魚現れる最初の位置
     location = new PVector(x, y);
     //魚の震える激しさ
-    angleSpeed = random(1,2);
+    angleSpeed = random(1,1);
+    
+    type = int(random(0, 2));//０１２の中のものをランダムで表示
+    size = random(1, 3);
   }
 
   void run(ArrayList<Boid> boids) {
@@ -71,31 +40,37 @@ class Boid {
     float offsetTail;
 
 //魚の頭の震えの数値、色
-    offsetHead = sin(angle*0.2+PI)*0;
-    offsetTail = sin(angle*0.2+PI/2)*6;
+    offsetHead = sin(angle*0.2+PI)*2;
+    offsetTail = sin(angle*0.2+PI/2)*5;
     // Draw a triangle rotated in the direction of velocity
     float theta = velocity.heading2D() + radians(90);
-    fill(#D36742);
+
+    //fill(#ff7154);
+    if (type == 0) fill(#ff7154);
+    if (type == 1) fill(#6784a8);
+    //if (type == 2) fill(#ffcc66);
+    
     noStroke();
     
     //魚の形
     pushMatrix();
     translate(location.x, location.y);
+    scale(size);//大きさ変える
     rotate(theta);
     beginShape();
-    vertex((offsetTail), -90);
-    bezierVertex((-11+offsetHead), -150, (11+offsetHead),-150,(offsetTail), -90);
+    vertex((offsetTail), -50);
+    bezierVertex((-11+offsetHead), -120, (11+offsetHead),-120,(offsetTail), -50);
     endShape();
     popMatrix();
 
-    pushMatrix();
-    translate(location.x+60, location.y+160);
-    rotate(theta);
-    beginShape();
-    vertex((offsetTail), -80);
-    bezierVertex((-20+offsetHead), -200, (20+offsetHead), -200, (offsetTail), -80);
-    endShape();
-    popMatrix();
+    //pushMatrix();
+    //translate(location.x+60, location.y+160);
+    //rotate(theta);
+    //beginShape();
+    //vertex((offsetTail), -80);
+    //bezierVertex((-20+offsetHead), -200, (20+offsetHead), -200, (offsetTail), -80);
+    //endShape();
+    //popMatrix();
   }
 
   // 画面の枠に当たって跳ね返る
