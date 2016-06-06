@@ -21,7 +21,7 @@ class Boid {
     angleSpeed = random(1,1);
     
     type = int(random(0, 2));//０１２の中のものをランダムで表示
-    size = random(1, 3);
+    size = random(0.3, 1.5);
   }
 
   void run(ArrayList<Boid> boids) {
@@ -33,7 +33,6 @@ class Boid {
  void update() {
     location.add(velocity);
   }
-
   void render() {
     angle = angle+angleSpeed;
     float offsetHead;
@@ -48,7 +47,6 @@ class Boid {
     //fill(#ff7154);
     if (type == 0) fill(#ff7154);
     if (type == 1) fill(#6784a8);
-    //if (type == 2) fill(#ffcc66);
     
     noStroke();
     
@@ -62,17 +60,7 @@ class Boid {
     bezierVertex((-11+offsetHead), -120, (11+offsetHead),-120,(offsetTail), -50);
     endShape();
     popMatrix();
-
-    //pushMatrix();
-    //translate(location.x+60, location.y+160);
-    //rotate(theta);
-    //beginShape();
-    //vertex((offsetTail), -80);
-    //bezierVertex((-20+offsetHead), -200, (20+offsetHead), -200, (offsetTail), -80);
-    //endShape();
-    //popMatrix();
   }
-
   // 画面の枠に当たって跳ね返る
   void borders() {
     if (location.x < -r) velocity.x = -velocity.x;

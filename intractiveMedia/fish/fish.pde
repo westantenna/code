@@ -1,6 +1,10 @@
-int numSpots = 15; //Maru no Kazu
-PImage img, maskImage; 
+int numSpots = 25; //丸の数
+PImage f0img, f1img, f2img, f3img, f4img;
+int fishNo;
 color bg = color(225, 233, 250, 100);
+
+import processing.video.*;
+
 
 Spot[] spots = new Spot[numSpots];
 
@@ -8,6 +12,19 @@ void setup() {
   size(1024, 768);
   colorMode(RGB, 255, 255, 255, 100);
   background(bg);
+  
+  
+  String list[] = Capture.list();
+  cam = new Capture(this, 640, 480, list[list.length-1]);
+  nya = new MultiMarker(this,width,height,"data/camera_para.dat",NyAR4PsgConfig.CONFIG_PSG);
+  nya.addARMarker("data/marker16.pat",80);
+  cam.start();
+  f0img = loadImage("data/fish0.png");
+  f1img = loadImage("data/fish1.png");
+  f2img = loadImage("data/fish2.png");
+  f3img = loadImage("data/fish3.png");
+  f4img = loadImage("data/fish4.png");
+
   smooth();
   noStroke();
   for (int i = 0; i < spots.length; i++) {
@@ -26,12 +43,14 @@ void setup() {
     Boid b = new Boid(random(width),random(height));
     flock.addBoid(b);    
   }
-  smooth();
 }
+
+
 
 
 void draw() {
   flock.run();
+  camera();
   fill(bg);
   noStroke();
   rect(0, 0, width, height);
@@ -41,6 +60,8 @@ void draw() {
     spots[i].display();
   }
   
+//mask 
+//y：192~576 x：320~704
 fill(0);
 beginShape();
 vertex(0, 0);
@@ -55,8 +76,10 @@ bezierVertex(  0,   0,1024,   0,1024,   0);
 bezierVertex(1024,  0,1024,   0,1024,1024);
 bezierVertex(1024,1024,1024,1024,  0,1024);
 endShape();
-  
+//mask end
+  fishimg();
 }
+
 
 class Spot {
   float x, y; // X-coordinate, y-coordinate
@@ -82,18 +105,17 @@ class Spot {
     }
   }
   void alpha() {
-
      alpha = alpha - 0.2;
   }
 
   // 2
   void display() {
-    strokeWeight(20);
+    strokeWeight(12);
     noFill();
     stroke(161, 185, 234, alpha);
     for (int i = 0; i<5; i++) {
-      ellipse(x, y, diameter + i*7, diameter + i*7);
+      ellipse(x, y, diameter + i*6, diameter + i*6);
     }
-    println(x, y, diameter, speed, alpha);
+//    println(x, y, diameter, speed, alpha);
   }
 }
